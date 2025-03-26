@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 import streamlit.components.v1 as components
 
-st.set_page_config(page_title="STRIDE Hover-Insights for Tables", layout="wide")
+st.set_page_config(page_title="Hover-Insights for Tables", layout="wide")
 
 @st.cache_data
 def load_data():
@@ -16,7 +16,7 @@ def load_column_descriptions():
         "Readiness Score": "Readiness ranges from ~50 to 95, with most values clustering around 75–85.",
         "Equipment Availability": "Most values are between 70–95%, indicating solid equipment support across bases.",
         "Cyber Resilience": "Cyber strength scores mostly fall between 60–90, with a few bases needing attention.",
-        "Training Level": "High training scores dominate, suggesting personnel are generally well-prepared."
+        "Training Level": "Training values typically range from 60–100, with most bases above 80%, suggesting well-prepared personnel."
     }
 
 df = load_data()
@@ -64,3 +64,4 @@ components.html(create_hover_table(df, descriptions), height=500, scrolling=True
 
 st.subheader("📊 Descriptive Statistics")
 st.dataframe(df.describe().round(2))
+
