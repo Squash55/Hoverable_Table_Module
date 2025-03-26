@@ -3,33 +3,19 @@ import streamlit as st
 import pandas as pd
 import streamlit.components.v1 as components
 
-st.set_page_config(page_title="STRIDE Hover-Insight Table", layout="wide")
+st.set_page_config(page_title="Hover-Insights Tables - Demo", layout="wide")
 
 @st.cache_data
 def load_data():
-    return pd.DataFrame({
-        "Base Name": ["Alpha", "Bravo", "Charlie"],
-        "Readiness Score": [82.5, 74.3, 90.1],
-        "Equipment Availability": [88, 76, 95],
-        "Cyber Resilience": [79, 68, 91],
-        "Training Level": [85, 70, 92]
-    })
+    return pd.read_csv("hover_data.csv")
 
 @st.cache_data
 def load_column_descriptions():
-    return {
-        "Base Name": "Identifier for each Air Force base.",
-        "Readiness Score": "Composite score representing overall mission readiness (0–100).",
-        "Equipment Availability": "Percentage of mission-critical equipment operational and ready.",
-        "Cyber Resilience": "System hardening and response strength to cyber threats.",
-        "Training Level": "Percent of personnel meeting operational training requirements."
-    }
+    return {'Base Name': 'Name of the base — mostly fictional, used for demonstration.', 'Readiness Score': 'Readiness ranges from ~50 to 95, with most values clustering around 75–85.', 'Equipment Availability': 'Most values are between 70–95%, indicating solid equipment support across bases.', 'Cyber Resilience': 'Cyber strength scores mostly fall between 60–90, with a few bases needing attention.', 'Training Level': 'High training scores dominate, suggesting personnel are generally well-prepared.'}
 
-# Load
 df = load_data()
 descriptions = load_column_descriptions()
 
-# HTML table with hover-enabled header row
 def create_hover_table(dataframe, tooltips):
     header_html = "<thead><tr>"
     for col in dataframe.columns:
@@ -44,27 +30,31 @@ def create_hover_table(dataframe, tooltips):
 
     table_html = f'''
     <style>
-        table {{
+        table {
             border-collapse: collapse;
             width: 100%;
-        }}
-        th, td {{
+            background-color: white;
+        }
+        th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 6px;
             text-align: left;
-        }}
-        th {{
+            color: black;
+        }
+        th {
             background-color: #f2f2f2;
             cursor: help;
-        }}
-        tr:hover {{ background-color: #f5f5f5; }}
+        }
+        tr:hover { background-color: #f5f5f5; }
     </style>
     <table>{header_html}{body_html}</table>
     '''
     return table_html
 
-# Render
-st.title("🧠 STRIDE: Hover-Insight Demo Table")
-st.markdown("This is a sample of how STRIDE integrates **data explanations directly into the experience.** Hover over any column header to see its meaning.")
+st.title("🧠 STRIDE: Enhanced Hover-Insight Table")
+st.markdown("Hover over the column headers below to understand the **distribution and meaning of the data**, not just the field names.")
 
-components.html(create_hover_table(df, descriptions), height=300, scrolling=True)
+components.html(create_hover_table(df, descriptions), height=500, scrolling=True)
+
+st.subheader("📊 Descriptive Statistics")
+st.dataframe(df.describe().round(2))
