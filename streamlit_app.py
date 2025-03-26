@@ -57,7 +57,7 @@ def create_hover_table(dataframe, tooltips):
     '''
     return full_html
 
-st.title("🧠 STRIDE: Hover-Insights for Tables")
+st.title("🧠 Hover-Insights for Tables")
 st.markdown("Hover over the column headers below to understand the **distribution and meaning of the data**, not just the field names.")
 
 components.html(create_hover_table(df, descriptions), height=500, scrolling=True)
